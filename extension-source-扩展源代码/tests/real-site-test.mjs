@@ -39,9 +39,13 @@ if (!fs.existsSync(SCREENSHOT_DIR)) {
 async function testSite(site) {
   console.log(`\n测试 ${site.name} (${site.url})...`);
   
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({ 
+    headless: true,  // 无头模式，不显示浏览器窗口
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
   const context = await browser.newContext({
-    viewport: { width: 1920, height: 1080 }
+    viewport: { width: 1920, height: 1080 },
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
   });
   const page = await context.newPage();
   
