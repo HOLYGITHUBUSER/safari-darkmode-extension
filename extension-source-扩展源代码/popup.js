@@ -1,74 +1,30 @@
-/**
- * popup.js — 弹出面板逻辑
- */
-
 (function() {
-  'use strict';
-
-  var DEFAULTS = {
-    enabled: true,
-    theme: 'dark',
-    brightness: 100,
-    contrast: 100,
-    autoMode: false,
-    whitelist: []
-  };
-
+  var DEFAULTS = { enabled: true, theme: 'dark', brightness: 100, contrast: 100, whitelist: [] };
   var _settings = null;
   var _currentOrigin = '';
 
-  // 标签切换
-  document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-      btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-    });
-  });
-
-  // 加载设置
   function loadSettings() {
     chrome.storage.local.get(['dmSettings'], function(result) {
       _settings = result.dmSettings || JSON.parse(JSON.stringify(DEFAULTS));
-
-      // 主控
-      document.getElementById('toggleSwitch').checked = _settings.enabled;
-      document.getElementById('autoModeSwitch').checked = _settings.autoMode || false;
-      updateStatusBadge();
-
-      // 主题
-      document.querySelectorAll('.theme-card').forEach(function(card) {
-        card.classList.toggle('active', card.dataset.theme === _settings.theme);
+      document.getElementById('toggle').checked = _settings.enabled;
+      document.getElementById('status').textContent = _settings.enabled ? 'ON' : 'OFF';
+      document.getElementById('status').className = 'status ' + (_settings.enabled ? 'on' : 'off');
+      document.querySelectorAll('.theme').forEach(function(el) {
+        el.classList.toggle('active', el.dataset.theme === _settings.theme);
       });
-
-      // 调节
-      document.getElementById('brightnessSlider').value = _settings.brightness;
-      document.getElementById('brightnessVal').textContent = _settings.brightness + '%';
-      document.getElementById('contrastSlider').value = _settings.contrast;
+      document.getElementById('bright').value = _settings.brightness;
+      document.getElementById('brightVal').textContent = _settings.brightness + '%';
+      document.getElementById('contrast').value = _settings.contrast;
       document.getElementById('contrastVal').textContent = _settings.contrast + '%';
-
-      // 网站
-      updateSitePanel();
+      updateSite();
     });
-  }
-
-  function updateStatusBadge() {
-    var badge = document.getElementById('mainStatus');
-    if (_settings.enabled) {
-      badge.textContent = 'ON';
-      badge.className = 'status-badge status-on';
-    } else {
-      badge.textContent = 'OFF';
-      badge.className = 'status-badge status-off';
-    }
   }
 
   function saveSettings() {
     chrome.storage.local.set({ dmSettings: _settings });
   }
 
-  function sendToAllTabs() {
+  function sendToTabs() {
     chrome.tabs.query({}, function(tabs) {
       tabs.forEach(function(tab) {
         if (tab.id) {
@@ -92,88 +48,75 @@
     });
   }
 
-  // 主控开关
-  document.getElementById('toggleSwitch').addEventListener('change', function(e) {
-    _settings.enabled = e.target.checked;
-    saveSettings();
-    sendToAllTabs();
-    updateStatusBadge();
-  });
-
-  // 自动模式
-  document.getElementById('autoModeSwitch').addEventListener('change', function(e) {
-    _settings.autoMode = e.target.checked;
-    saveSettings();
-  });
-
-  // 主题选择
-  document.querySelectorAll('.theme-card').forEach(function(card) {
-    card.addEventListener('click', function() {
-      _settings.theme = card.dataset.theme;
-      document.querySelectorAll('.theme-card').forEach(function(c) { c.classList.remove('active'); });
-      card.classList.add('active');
-      saveSettings();
-      if (_settings.enabled) sendToAllTabs();
-    });
-  });
-
-  // 亮度/对比度
-  document.getElementById('brightnessSlider').addEventListener('input', function(e) {
-    _settings.brightness = parseInt(e.target.value);
-    document.getElementById('brightnessVal').textContent = _settings.brightness + '%';
-    saveSettings();
-    if (_settings.enabled) sendToAllTabs();
-  });
-
-  document.getElementById('contrastSlider').addEventListener('input', function(e) {
-    _settings.contrast = parseInt(e.target.value);
-    document.getElementById('contrastVal').textContent = _settings.contrast + '%';
-    saveSettings();
-    if (_settings.enabled) sendToAllTabs();
-  });
-
-  // 网站面板
-  function updateSitePanel() {
+  function updateSite() {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      var toggle = document.getElementById('currentSiteToggle');
+      var label = document.getElementById('siteLabel');
+      var status = document.getElementById('siteStatus');
       if (!tabs[0] || !tabs[0].url) {
-        toggle.textContent = '—';
-        toggle.className = 'site-toggle';
+        label.textContent = '—';
+        status.className = 'status off';
         return;
       }
-
       try {
         var url = new URL(tabs[0].url);
         _currentOrigin = url.origin;
+        label.textContent = url.hostname;
         var isWhitelisted = (_settings.whitelist || []).indexOf(_currentOrigin) !== -1;
-
-        toggle.textContent = isWhitelisted ? '已禁用' : '启用';
-        toggle.className = isWhitelisted ? 'site-toggle site-disabled' : 'site-toggle site-enabled';
+        status.textContent = isWhitelisted ? 'OFF' : 'ON';
+        status.className = 'status ' + (isWhitelisted ? 'off' : 'on');
       } catch (e) {
-        toggle.textContent = '—';
-        toggle.className = 'site-toggle';
+        label.textContent = '—';
+        status.className = 'status off';
       }
     });
   }
 
-  document.getElementById('currentSiteToggle').addEventListener('click', function() {
-    if (!_currentOrigin) return;
+  document.getElementById('toggle').addEventListener('change', function(e) {
+    _settings.enabled = e.target.checked;
+    document.getElementById('status').textContent = _settings.enabled ? 'ON' : 'OFF';
+    document.getElementById('status').className = 'status ' + (_settings.enabled ? 'on' : 'off');
+    saveSettings();
+    sendToTabs();
+  });
 
+  document.querySelectorAll('.theme').forEach(function(el) {
+    el.addEventListener('click', function() {
+      _settings.theme = el.dataset.theme;
+      document.querySelectorAll('.theme').forEach(function(t) { t.classList.remove('active'); });
+      el.classList.add('active');
+      saveSettings();
+      if (_settings.enabled) sendToTabs();
+    });
+  });
+
+  document.getElementById('bright').addEventListener('input', function(e) {
+    _settings.brightness = parseInt(e.target.value);
+    document.getElementById('brightVal').textContent = _settings.brightness + '%';
+    saveSettings();
+    if (_settings.enabled) sendToTabs();
+  });
+
+  document.getElementById('contrast').addEventListener('input', function(e) {
+    _settings.contrast = parseInt(e.target.value);
+    document.getElementById('contrastVal').textContent = _settings.contrast + '%';
+    saveSettings();
+    if (_settings.enabled) sendToTabs();
+  });
+
+  document.getElementById('siteStatus').addEventListener('click', function() {
+    if (!_currentOrigin) return;
     var whitelist = _settings.whitelist || [];
     var idx = whitelist.indexOf(_currentOrigin);
-
     if (idx !== -1) {
       whitelist.splice(idx, 1);
     } else {
       whitelist.push(_currentOrigin);
     }
-
     _settings.whitelist = whitelist;
     saveSettings();
-    updateSitePanel();
+    updateSite();
     sendToActiveTab();
   });
 
-  // 初始化
   loadSettings();
 })();
