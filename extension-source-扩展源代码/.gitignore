@@ -9,7 +9,7 @@ popup/popup.js
 popup/popup.js.map
 
 # Playwright 测试产物
-tests/screenshots/
+# tests/screenshots/  # 允许提交审核截图
 test-results/
 playwright-report/
 playwright/.cache/
