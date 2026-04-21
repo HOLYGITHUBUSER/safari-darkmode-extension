@@ -3,62 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <style>
-*{box-sizing:border-box;margin:0}
-body{width:280px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f1a;color:#e0e0e0;padding:12px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-user-select:none;user-select:none}
+body{width:300px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f1a;color:#e0e0e0;padding:14px}
+
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.header h3{font-size:14px}
-.status{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
-.on{background:#1a4a2a;color:#4ade80}
-.off{background:#4a1a1a;color:#ef4444}
-.row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2a2a4a}
-.row:last-child{border-bottom:none}
-.label{font-size:12px;opacity:0.8}
-.switch{position:relative;width:40px;height:20px}
-.switch input{opacity:0;width:0;height:0}
-.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#444;transition:.3s;border-radius:20px}
-.slider:before{position:absolute;content:"";height:14px;width:14px;left:3px;bottom:3px;background:#fff;transition:.3s;border-radius:50%}
-input:checked+.slider{background:#4fc3f7}
-input:checked+.slider:before{transform:translateX(20px)}
-.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
-.theme{padding:6px;border:2px solid #2a2a4a;border-radius:8px;background:#1a1a2e;cursor:pointer;text-align:center;font-size:10px}
+.header h3{font-size:15px;font-weight:600}
+
+/* 按钮式开关（大按钮，整体可点） */
+.btn{
+  display:block;width:100%;padding:12px 14px;border:1px solid #2a2a4a;border-radius:10px;
+  background:#1a1a2e;color:#e0e0e0;font-size:13px;font-weight:600;cursor:pointer;
+  transition:background .15s, border-color .15s, color .15s;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.btn:hover{background:#20203a}
+.btn:active{transform:scale(0.99)}
+.btn.on{background:#1a3a2a;border-color:#4ade80;color:#4ade80}
+.btn.on:hover{background:#214a33}
+.btn .dot{width:10px;height:10px;border-radius:50%;background:#666;box-shadow:0 0 0 0 rgba(0,0,0,0)}
+.btn.on .dot{background:#4ade80;box-shadow:0 0 8px #4ade80}
+
+.section{margin-top:12px}
+.section-title{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#8888aa;margin-bottom:6px}
+
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.theme{padding:6px 4px;border:2px solid #2a2a4a;border-radius:8px;background:#1a1a2e;cursor:pointer;text-align:center;font-size:10px;transition:border-color .15s,background .15s}
+.theme:hover{background:#20203a}
 .theme.active{border-color:#4fc3f7;background:#16213e}
-.theme-preview{width:100%;height:24px;border-radius:4px;margin-bottom:4px}
-.slider-row{margin:8px 0}
-.slider-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px}
-.slider-label span:last-child{color:#4fc3f7}
+.theme-preview{width:100%;height:22px;border-radius:4px;margin-bottom:4px}
+
+.slider-row{margin-top:10px}
+.slider-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px}
+.slider-label .v{color:#4fc3f7;font-weight:600}
 input[type=range]{width:100%;height:4px;border-radius:2px;background:#2a2a4a;outline:none;-webkit-appearance:none;appearance:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:12px;height:12px;border-radius:50%;background:#4fc3f7;cursor:pointer}
-.footer{text-align:center;font-size:9px;opacity:0.3;margin-top:8px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#4fc3f7;cursor:pointer;border:none}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#4fc3f7;cursor:pointer;border:none}
+
+.site-row{margin-top:12px;padding:10px 12px;border:1px solid #2a2a4a;border-radius:10px;background:#1a1a2e;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background .15s}
+.site-row:hover{background:#20203a}
+.site-label{font-size:11px;color:#bbb;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.site-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px}
+.site-badge.on{background:#1a4a2a;color:#4ade80}
+.site-badge.off{background:#4a1a1a;color:#ef4444}
+
+.footer{text-align:center;font-size:9px;opacity:0.35;margin-top:12px}
 </style>
 </head>
 <body>
+
 <div class="header">
-<h3>Dark Mode</h3>
-<span class="status off" id="status">OFF</span>
+  <h3>Dark Mode</h3>
 </div>
-<div class="row">
-<span class="label">Enable</span>
-<label class="switch"><input type="checkbox" id="toggle"><span class="slider"></span></label>
+
+<button id="toggle" class="btn" type="button">
+  <span id="toggleText">关闭中</span>
+  <span class="dot"></span>
+</button>
+
+<div class="section">
+  <div class="section-title">主题</div>
+  <div class="themes">
+    <div class="theme active" data-theme="dark"><div class="theme-preview" style="background:#121212"></div>Dark</div>
+    <div class="theme" data-theme="sepia"><div class="theme-preview" style="background:#1c1510"></div>Sepia</div>
+    <div class="theme" data-theme="midnight"><div class="theme-preview" style="background:#0a0e1a"></div>Night</div>
+    <div class="theme" data-theme="forest"><div class="theme-preview" style="background:#0a1a0d"></div>Forest</div>
+  </div>
 </div>
-<div class="themes">
-<div class="theme active" data-theme="dark"><div class="theme-preview" style="background:#121212"></div>Dark</div>
-<div class="theme" data-theme="sepia"><div class="theme-preview" style="background:#1c1510"></div>Sepia</div>
-<div class="theme" data-theme="midnight"><div class="theme-preview" style="background:#0a0e1a"></div>Night</div>
-<div class="theme" data-theme="forest"><div class="theme-preview" style="background:#0a1a0d"></div>Forest</div>
-</div>
+
 <div class="slider-row">
-<div class="slider-label"><span>Brightness</span><span id="brightVal">100%</span></div>
-<input type="range" id="bright" min="50" max="150" value="100">
+  <div class="slider-label"><span>亮度</span><span class="v" id="brightVal">100%</span></div>
+  <input type="range" id="bright" min="50" max="150" value="100">
 </div>
+
 <div class="slider-row">
-<div class="slider-label"><span>Contrast</span><span id="contrastVal">100%</span></div>
-<input type="range" id="contrast" min="50" max="150" value="100">
+  <div class="slider-label"><span>对比度</span><span class="v" id="contrastVal">100%</span></div>
+  <input type="range" id="contrast" min="50" max="150" value="100">
 </div>
-<div class="row">
-<span class="label" id="siteLabel">Current Site</span>
-<span class="status on" id="siteStatus">ON</span>
+
+<div class="site-row" id="siteRow">
+  <span class="site-label" id="siteLabel">当前站点</span>
+  <span class="site-badge on" id="siteStatus">启用</span>
 </div>
-<div class="footer">v2.0 Safari Extension</div>
+
+<div class="footer">v2.1 · 点击"当前站点"可切换该站点</div>
+
 <script src="popup.js"></script>
 </body>
 </html>

@@ -1,5 +1,1 @@
-/* 过渡动画 */
-.dm-transitioning, .dm-transitioning *,
-.dm-transitioning *::before, .dm-transitioning *::after {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
-}
+/* 静态样式表保留为占位；实际规则由 content.js 根据主题注入 */

@@ -1,5 +1,12 @@
 {
-  "dependencies": {
+  "name": "safari-darkmode-extension",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Safari 全局暗黑模式扩展",
+  "scripts": {
+    "zip": "cd .. && rm -f SafariDarkMode-Extension.zip && zip -r SafariDarkMode-Extension.zip extension-source-扩展源代码 -x '*/node_modules/*' '*/.DS_Store'"
+  },
+  "devDependencies": {
     "sharp": "^0.34.5"
   }
 }

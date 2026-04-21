@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Dark Mode 扩展 · 本地测试页</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; margin: 0; background:#ffffff; color:#222; }
+  header { background:#f6f7f9; padding:16px 24px; border-bottom:1px solid #e5e7eb; }
+  header h1 { margin:0; font-size:20px; }
+  main { max-width: 960px; margin:0 auto; padding: 24px; display:grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card { background:#fafafa; border:1px solid #e5e7eb; border-radius:10px; padding:16px; }
+  .card h2 { margin:0 0 10px; font-size:15px; }
+  .panel { background:#eef2ff; border:1px solid #c7d2fe; border-radius:8px; padding:12px; }
+  a { color:#2563eb; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  input, textarea, select { width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px; background:#fff; color:#111; margin-top:6px; }
+  pre, code { background:#f1f5f9; color:#0f172a; padding: 2px 4px; border-radius:4px; }
+  pre { padding:10px; overflow:auto; }
+  table { width:100%; border-collapse:collapse; margin-top:8px; }
+  th, td { border:1px solid #e5e7eb; padding:6px 8px; text-align:left; font-size:13px; }
+  thead { background:#f3f4f6; }
+  .nav { display:flex; gap:12px; }
+  img { max-width:100%; border-radius:6px; }
+  footer { text-align:center; padding:16px; font-size:12px; color:#999; }
+
+  /* 浮动迷你控制台（直接在本地模拟扩展 popup） */
+  #dm-devtools {
+    position: fixed; right: 16px; bottom: 16px; z-index: 2147483647;
+    width: 260px; background:#0f0f1a; color:#e0e0e0;
+    border:1px solid #2a2a4a; border-radius:12px; padding:14px;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif; font-size:12px;
+    box-shadow:0 12px 32px rgba(0,0,0,.35);
+  }
+  #dm-devtools h4 { margin:0 0 10px; font-size:13px; }
+  #dm-devtools button.dm-btn {
+    display:flex; width:100%; padding:10px 12px; border:1px solid #2a2a4a;
+    border-radius:8px; background:#1a1a2e; color:#e0e0e0;
+    font-size:12px; font-weight:600; cursor:pointer;
+    align-items:center; justify-content:space-between;
+  }
+  #dm-devtools button.dm-btn.on { background:#1a3a2a; border-color:#4ade80; color:#4ade80; }
+  #dm-devtools .dot { width:8px; height:8px; border-radius:50%; background:#666; }
+  #dm-devtools button.dm-btn.on .dot { background:#4ade80; box-shadow:0 0 8px #4ade80; }
+  #dm-devtools .themes { display:grid; grid-template-columns: repeat(4,1fr); gap:6px; margin-top:10px; }
+  #dm-devtools .th { padding:4px; border:2px solid #2a2a4a; border-radius:6px; background:#1a1a2e; text-align:center; cursor:pointer; font-size:10px;}
+  #dm-devtools .th.active { border-color:#4fc3f7; background:#16213e; }
+  #dm-devtools .th i { display:block; width:100%; height:16px; border-radius:3px; margin-bottom:3px; }
+  #dm-devtools label { display:block; margin-top:10px; font-size:10px; color:#888; }
+  #dm-devtools input[type=range] { width:100%; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Dark Mode 测试页</h1>
+  <p style="margin:6px 0 0;color:#666;font-size:13px;">右下角迷你控制台可实时切换主题，和扩展 popup 完全一致的逻辑。</p>
+  <div class="nav" style="margin-top:8px;">
+    <a href="#">链接一</a>
+    <a href="#">链接二</a>
+    <a href="#">链接三</a>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>普通文本 & 容器</h2>
+    <p>这是一段普通段落。<strong>加粗文字</strong>、<em>斜体</em>、<a href="#">链接</a>。</p>
+    <div class="panel">这是一个 panel 容器（class 含 "panel"）</div>
+  </section>
+
+  <section class="card">
+    <h2>表单</h2>
+    <input type="text" placeholder="输入框 placeholder 示例">
+    <textarea rows="3" placeholder="多行文本"></textarea>
+    <select><option>选项 A</option><option>选项 B</option></select>
+  </section>
+
+  <section class="card">
+    <h2>代码块</h2>
+    <pre><code>function hello(name) {
+  return "hi, " + name;
+}</code></pre>
+    <p>行内 <code>inline code</code> 示例</p>
+  </section>
+
+  <section class="card">
+    <h2>表格</h2>
+    <table>
+      <thead><tr><th>名称</th><th>数量</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td>Apple</td><td>10</td><td>OK</td></tr>
+        <tr><td>Banana</td><td>3</td><td>OK</td></tr>
+        <tr><td>Cherry</td><td>25</td><td>OK</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card" style="grid-column:1 / -1;">
+    <h2>图片（应保持原色，不被二次压暗）</h2>
+    <div style="display:flex;gap:12px;">
+      <img alt="img1" src="https://placehold.co/200x120/2563eb/ffffff?text=Blue"/>
+      <img alt="img2" src="https://placehold.co/200x120/ef4444/ffffff?text=Red"/>
+      <img alt="img3" src="https://placehold.co/200x120/16a34a/ffffff?text=Green"/>
+    </div>
+  </section>
+</main>
+
+<footer>Dark Mode Extension · Local Test Page</footer>
+
+<!-- 模拟 chrome API，使扩展脚本可以在本地独立运行 -->
+<script>
+(function(){
+  var _store = {};
+  var _listeners = [];
+  window.chrome = {
+    storage: {
+      local: {
+        get: function(keys, cb){
+          var out = {};
+          (Array.isArray(keys)?keys:[keys]).forEach(function(k){ if (k in _store) out[k] = _store[k]; });
+          setTimeout(function(){ cb && cb(out); }, 0);
+        },
+        set: function(obj, cb){
+          var changes = {};
+          Object.keys(obj).forEach(function(k){
+            changes[k] = { oldValue: _store[k], newValue: obj[k] };
+            _store[k] = obj[k];
+          });
+          setTimeout(function(){
+            _listeners.forEach(function(fn){ try{ fn(changes, 'local'); }catch(e){} });
+            cb && cb();
+          }, 0);
+        }
+      },
+      onChanged: {
+        addListener: function(fn){ _listeners.push(fn); }
+      }
+    },
+    runtime: {
+      lastError: null,
+      onMessage: { addListener: function(){} }
+    },
+    tabs: {
+      query: function(q, cb){ cb && cb([]); },
+      sendMessage: function(){}
+    }
+  };
+})();
+</script>
+
+<!-- 加载扩展的主题和内容脚本 -->
+<script src="../extension-source-扩展源代码/src/themes.js"></script>
+<script src="../extension-source-扩展源代码/src/content.js"></script>
+
+<!-- 在页面里嵌一个迷你控制台，方便测试 -->
+<div id="dm-devtools">
+  <h4>测试控制台</h4>
+  <button id="dmt-toggle" class="dm-btn on" type="button">
+    <span id="dmt-text">已开启</span><span class="dot"></span>
+  </button>
+  <div class="themes">
+    <div class="th active" data-theme="dark"><i style="background:#121212"></i>Dark</div>
+    <div class="th" data-theme="sepia"><i style="background:#1c1510"></i>Sepia</div>
+    <div class="th" data-theme="midnight"><i style="background:#0a0e1a"></i>Night</div>
+    <div class="th" data-theme="forest"><i style="background:#0a1a0d"></i>Forest</div>
+  </div>
+  <label>亮度 <span id="dmt-bv">100%</span></label>
+  <input id="dmt-bright" type="range" min="50" max="150" value="100">
+  <label>对比度 <span id="dmt-cv">100%</span></label>
+  <input id="dmt-contrast" type="range" min="50" max="150" value="100">
+</div>
+
+<script>
+(function(){
+  var s = { enabled:true, theme:'dark', brightness:100, contrast:100, whitelist:[] };
+  function save(){ chrome.storage.local.set({ dmSettings: s }); }
+
+  var tog = document.getElementById('dmt-toggle');
+  tog.addEventListener('click', function(){
+    s.enabled = !s.enabled;
+    tog.classList.toggle('on', s.enabled);
+    document.getElementById('dmt-text').textContent = s.enabled ? '已开启' : '已关闭';
+    save();
+  });
+
+  document.querySelectorAll('#dm-devtools .th').forEach(function(el){
+    el.addEventListener('click', function(){
+      s.theme = el.dataset.theme;
+      document.querySelectorAll('#dm-devtools .th').forEach(function(t){ t.classList.remove('active'); });
+      el.classList.add('active');
+      save();
+    });
+  });
+  document.getElementById('dmt-bright').addEventListener('input', function(e){
+    s.brightness = +e.target.value;
+    document.getElementById('dmt-bv').textContent = s.brightness + '%';
+    save();
+  });
+  document.getElementById('dmt-contrast').addEventListener('input', function(e){
+    s.contrast = +e.target.value;
+    document.getElementById('dmt-cv').textContent = s.contrast + '%';
+    save();
+  });
+
+  // 初始化
+  save();
+})();
+</script>
+
+</body>
+</html>

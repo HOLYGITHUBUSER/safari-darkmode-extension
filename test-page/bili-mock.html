@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Bilibili 复刻测试</title>
+<style>
+/* 使用与 B 站相近的类名和白色背景，验证扩展能否正确处理 */
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; background:#f1f2f3; color:#18191c; }
+a { color:#00a1d6; text-decoration:none; }
+
+.bili-header__bar { background:#fff; border-bottom:1px solid #e3e5e7; height:56px; display:flex; align-items:center; padding:0 24px; gap:16px; }
+.entry-title { font-weight:600; font-size:16px; color:#18191c; }
+.left-entry { display:flex; gap:16px; list-style:none; }
+.left-entry li { font-size:13px; color:#61666d; cursor:pointer; }
+
+.bili-feed4 { background:#f1f2f3; min-height:calc(100vh - 56px); }
+.bili-feed4-layout { max-width:1200px; margin:0 auto; padding:20px; }
+
+.recommended-container_floor-aside {
+  display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; background:#fff; padding:16px; border-radius:8px;
+}
+
+.bili-video-card {
+  background:#fff; border-radius:8px; overflow:hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.bili-video-card__cover { height:120px; background:linear-gradient(135deg,#fb7299,#00a1d6); }
+.bili-video-card__info { padding:10px; }
+.bili-video-card__info--tit { font-size:14px; font-weight:500; color:#18191c; line-height:1.4; margin-bottom:6px; }
+.bili-video-card__info--bottom { display:flex; justify-content:space-between; font-size:12px; color:#9499a0; }
+.bili-video-card__info--owner { color:#61666d; }
+
+.feed-card { background:#fff; border-radius:8px; padding:16px; margin-top:16px; }
+.feed-card h3 { font-size:15px; margin-bottom:10px; }
+
+.bili-header__banner { background:#fff; padding:16px; margin:16px auto; max-width:1200px; border-radius:8px; }
+
+.btn-primary { background:#00a1d6; color:#fff; padding:6px 12px; border:none; border-radius:4px; cursor:pointer; }
+.icon-more { display:inline-block; width:20px; height:20px; background:#f1f2f3; border-radius:50%; }
+</style>
+</head>
+<body>
+
+<div class="bili-header large-header">
+  <div class="bili-header__bar">
+    <a class="entry-title">哔哩哔哩</a>
+    <ul class="left-entry">
+      <li>首页</li>
+      <li>番剧</li>
+      <li>直播</li>
+      <li>游戏中心</li>
+    </ul>
+    <button class="btn-primary" style="margin-left:auto;">投稿</button>
+  </div>
+</div>
+
+<div class="bili-feed4">
+  <div class="bili-feed4-layout">
+
+    <div class="bili-header__banner">
+      <h2 style="font-size:18px;">推荐广告位 banner</h2>
+      <p style="color:#61666d;margin-top:6px;">这个 banner 原本是白色背景</p>
+    </div>
+
+    <div class="recommended-container_floor-aside">
+      <div class="bili-video-card">
+        <div class="bili-video-card__cover"></div>
+        <div class="bili-video-card__info">
+          <div class="bili-video-card__info--tit">这是一段视频标题示例文字内容</div>
+          <div class="bili-video-card__info--bottom">
+            <span class="bili-video-card__info--owner">UP主名字</span>
+            <span>1.2万观看</span>
+          </div>
+        </div>
+      </div>
+      <div class="bili-video-card">
+        <div class="bili-video-card__cover" style="background:linear-gradient(135deg,#4ade80,#60a5fa);"></div>
+        <div class="bili-video-card__info">
+          <div class="bili-video-card__info--tit">标题二：长一点的标题内容看效果</div>
+          <div class="bili-video-card__info--bottom">
+            <span class="bili-video-card__info--owner">作者B</span>
+            <span>3.4万观看</span>
+          </div>
+        </div>
+      </div>
+      <div class="bili-video-card">
+        <div class="bili-video-card__cover" style="background:linear-gradient(135deg,#f59e0b,#ef4444);"></div>
+        <div class="bili-video-card__info">
+          <div class="bili-video-card__info--tit">标题三</div>
+          <div class="bili-video-card__info--bottom">
+            <span class="bili-video-card__info--owner">作者C</span>
+            <span>589观看</span>
+          </div>
+        </div>
+      </div>
+      <div class="bili-video-card">
+        <div class="bili-video-card__cover" style="background:linear-gradient(135deg,#a78bfa,#ec4899);"></div>
+        <div class="bili-video-card__info">
+          <div class="bili-video-card__info--tit">标题四</div>
+          <div class="bili-video-card__info--bottom">
+            <span class="bili-video-card__info--owner">作者D</span>
+            <span>9800观看</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feed-card">
+      <h3>动态</h3>
+      <p style="color:#61666d; margin-bottom:8px;">这是一段动态内容，背景原本也是白色。</p>
+      <a href="#">点击查看详情 →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- 模拟 chrome API -->
+<script>
+(function(){
+  var _store = {}, _listeners = [];
+  window.chrome = {
+    storage: {
+      local: {
+        get:function(keys,cb){var o={};(Array.isArray(keys)?keys:[keys]).forEach(function(k){if(k in _store)o[k]=_store[k];});setTimeout(function(){cb&&cb(o);},0);},
+        set:function(obj,cb){var ch={};Object.keys(obj).forEach(function(k){ch[k]={oldValue:_store[k],newValue:obj[k]};_store[k]=obj[k];});setTimeout(function(){_listeners.forEach(function(fn){try{fn(ch,'local');}catch(e){}});cb&&cb();},0);}
+      },
+      onChanged:{addListener:function(fn){_listeners.push(fn);}}
+    },
+    runtime:{lastError:null,onMessage:{addListener:function(){}}},
+    tabs:{query:function(q,cb){cb&&cb([]);},sendMessage:function(){}}
+  };
+})();
+</script>
+
+<script src="../extension-source-扩展源代码/src/themes.js"></script>
+<script src="../extension-source-扩展源代码/src/content.js"></script>
+
+<!-- 迷你控制台 -->
+<div id="dm-devtools" style="position:fixed;right:16px;bottom:16px;z-index:2147483647;width:240px;background:#0f0f1a;color:#e0e0e0;border:1px solid #2a2a4a;border-radius:12px;padding:14px;font-family:-apple-system,sans-serif;font-size:12px;box-shadow:0 12px 32px rgba(0,0,0,.35);">
+  <h4 style="margin:0 0 10px;font-size:13px;">B 站测试控制台</h4>
+  <button id="dmt-toggle" type="button" style="display:flex;width:100%;padding:10px 12px;border:1px solid #4ade80;border-radius:8px;background:#1a3a2a;color:#4ade80;font-size:12px;font-weight:600;cursor:pointer;align-items:center;justify-content:space-between;">
+    <span id="dmt-text">已开启</span><span style="width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;"></span>
+  </button>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;" id="dmt-themes">
+    <div class="th active" data-theme="dark" style="padding:4px;border:2px solid #4fc3f7;border-radius:6px;background:#16213e;text-align:center;cursor:pointer;font-size:10px;"><i style="display:block;height:16px;background:#121212;border-radius:3px;margin-bottom:3px;"></i>Dark</div>
+    <div class="th" data-theme="sepia" style="padding:4px;border:2px solid #2a2a4a;border-radius:6px;background:#1a1a2e;text-align:center;cursor:pointer;font-size:10px;"><i style="display:block;height:16px;background:#1c1510;border-radius:3px;margin-bottom:3px;"></i>Sepia</div>
+    <div class="th" data-theme="midnight" style="padding:4px;border:2px solid #2a2a4a;border-radius:6px;background:#1a1a2e;text-align:center;cursor:pointer;font-size:10px;"><i style="display:block;height:16px;background:#0a0e1a;border-radius:3px;margin-bottom:3px;"></i>Night</div>
+    <div class="th" data-theme="forest" style="padding:4px;border:2px solid #2a2a4a;border-radius:6px;background:#1a1a2e;text-align:center;cursor:pointer;font-size:10px;"><i style="display:block;height:16px;background:#0a1a0d;border-radius:3px;margin-bottom:3px;"></i>Forest</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var s = { enabled:true, theme:'dark', brightness:100, contrast:100, whitelist:[] };
+  function save(){ chrome.storage.local.set({ dmSettings: s }); }
+  var tog = document.getElementById('dmt-toggle');
+  tog.addEventListener('click', function(){
+    s.enabled = !s.enabled;
+    if (s.enabled) { tog.style.background='#1a3a2a'; tog.style.borderColor='#4ade80'; tog.style.color='#4ade80'; document.getElementById('dmt-text').textContent='已开启'; }
+    else { tog.style.background='#1a1a2e'; tog.style.borderColor='#2a2a4a'; tog.style.color='#e0e0e0'; document.getElementById('dmt-text').textContent='已关闭'; }
+    save();
+  });
+  document.querySelectorAll('#dmt-themes .th').forEach(function(el){
+    el.addEventListener('click', function(){
+      s.theme = el.dataset.theme;
+      document.querySelectorAll('#dmt-themes .th').forEach(function(t){ t.style.borderColor='#2a2a4a';t.style.background='#1a1a2e'; });
+      el.style.borderColor='#4fc3f7'; el.style.background='#16213e';
+      save();
+    });
+  });
+  save();
+})();
+</script>
+
+</body>
+</html>
