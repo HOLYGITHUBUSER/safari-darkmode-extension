@@ -19,8 +19,8 @@ safari-darkmode-项目/
 │   ├── icon128.png               # 128x128 像素图标
 │   └── README.md                 # 扩展详细说明
 ├── SafariDarkMode-Extension.zip  # 分发包（压缩的扩展源代码）
-├── 分发说明.md                    # 给接收者的安装说明
-└── 项目说明.md                    # 本文件
+├── distribution-guide-分发说明.md  # 给接收者的安装说明
+└── project-guide-项目说明.md      # 本文件
 ```
 
 ## 文件详细说明
@@ -91,7 +91,7 @@ safari-darkmode-项目/
 
 ### 分发给他人
 1. 发送 `SafariDarkMode-Extension.zip` 给对方
-2. 同时发送 `分发说明.md`
+2. 同时发送 `distribution-guide-分发说明.md`
 3. 对方按照说明解压并安装即可
 
 ## 技术栈
