@@ -1,14 +1,15 @@
 {
   "manifest_version": 2,
   "name": "全局暗黑模式",
-  "version": "1.0.0",
-  "description": "为所有网页应用暗黑模式",
+  "version": "2.0.0",
+  "description": "为所有网页应用暗黑模式，支持多主题和网站管理",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "browser_action": {
-    "default_title": "切换暗黑模式",
+    "default_title": "暗黑模式设置",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icon16.png",
@@ -26,7 +27,8 @@
       "matches": ["<all_urls>"],
       "js": ["content.js"],
       "css": ["darkmode.css"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "all_frames": false
     }
   ]
 }

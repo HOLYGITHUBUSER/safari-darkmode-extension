@@ -3,153 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <style>
+    * { box-sizing: border-box; margin: 0; }
     body {
-      width: 280px;
-      padding: 20px;
+      width: 320px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
-      color: #ffffff;
-      margin: 0;
+      background: #0f0f1a;
+      color: #e0e0e0;
     }
-    .header {
+
+    /* 标签栏 */
+    .tab-bar {
+      display: flex;
+      background: #1a1a2e;
+      border-bottom: 1px solid #2a2a4a;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 4px;
+      border: none;
+      background: none;
+      color: #888;
+      font-size: 11px;
+      cursor: pointer;
+      transition: .2s;
       text-align: center;
-      margin-bottom: 20px;
     }
-    .header h2 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 600;
+    .tab-btn:hover { color: #ccc; }
+    .tab-btn.active {
+      color: #4fc3f7;
+      border-bottom: 2px solid #4fc3f7;
     }
-    .header p {
-      margin: 5px 0 0 0;
-      font-size: 12px;
-      opacity: 0.8;
-    }
-    .section {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      opacity: 0.9;
-    }
-    .toggle-container {
+    .tab-icon { display: block; font-size: 16px; margin-bottom: 2px; }
+
+    /* 面板 */
+    .tab-panel { display: none; padding: 14px 16px; }
+    .tab-panel.active { display: block; }
+
+    /* 头部 */
+    .panel-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 14px;
     }
-    .toggle-label {
-      font-size: 14px;
+    .panel-header h3 { font-size: 14px; font-weight: 600; }
+    .status-badge {
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
     }
+    .status-on { background: #1a4a2a; color: #4ade80; }
+    .status-off { background: #4a1a1a; color: #ef4444; }
+
+    /* 开关 */
     .switch {
       position: relative;
       display: inline-block;
-      width: 50px;
-      height: 26px;
+      width: 44px;
+      height: 22px;
     }
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
+    .switch input { opacity: 0; width: 0; height: 0; }
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #555;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #444;
       transition: .3s;
-      border-radius: 26px;
+      border-radius: 22px;
     }
     .slider:before {
       position: absolute;
       content: "";
-      height: 20px;
-      width: 20px;
+      height: 16px;
+      width: 16px;
       left: 3px;
       bottom: 3px;
-      background-color: white;
+      background: #fff;
       transition: .3s;
       border-radius: 50%;
     }
-    input:checked + .slider {
-      background-color: #64b5f6;
+    input:checked + .slider { background: #4fc3f7; }
+    input:checked + .slider:before { transform: translateX(22px); }
+
+    /* 主题网格 */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
     }
-    input:checked + .slider:before {
-      transform: translateX(24px);
+    .theme-card {
+      padding: 10px;
+      border: 2px solid #2a2a4a;
+      border-radius: 10px;
+      background: #1a1a2e;
+      cursor: pointer;
+      text-align: center;
+      transition: .2s;
     }
-    .slider-container {
-      margin-top: 12px;
+    .theme-card:hover { border-color: #4fc3f7; }
+    .theme-card.active { border-color: #4fc3f7; background: #16213e; }
+    .theme-preview {
+      width: 100%;
+      height: 40px;
+      border-radius: 6px;
+      margin-bottom: 6px;
     }
+    .theme-label { font-size: 11px; }
+
+    /* 滑块 */
+    .slider-group { margin-bottom: 12px; }
     .slider-label {
-      font-size: 12px;
-      margin-bottom: 8px;
       display: flex;
       justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 6px;
     }
+    .slider-label span:first-child { opacity: 0.7; }
+    .slider-label span:last-child { color: #4fc3f7; font-weight: 600; }
     input[type="range"] {
       width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.3);
+      height: 4px;
+      border-radius: 2px;
+      background: #2a2a4a;
       outline: none;
       -webkit-appearance: none;
+      appearance: none;
     }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
-      background: #64b5f6;
+      background: #4fc3f7;
       cursor: pointer;
     }
+
+    /* 网站列表 */
+    .site-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #2a2a4a;
+      font-size: 12px;
+    }
+    .site-row:last-child { border-bottom: none; }
+    .site-name { opacity: 0.8; }
+    .site-toggle { cursor: pointer; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+    .site-enabled { background: #1a4a2a; color: #4ade80; }
+    .site-disabled { background: #4a1a1a; color: #ef4444; }
+
+    /* 底部 */
     .footer {
       text-align: center;
-      font-size: 11px;
-      opacity: 0.6;
-      margin-top: 10px;
+      font-size: 10px;
+      opacity: 0.3;
+      padding: 8px;
+      border-top: 1px solid #2a2a4a;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h2>🌙 暗黑模式</h2>
-    <p>智能护眼，舒适阅读</p>
-  </div>
-  
-  <div class="section">
-    <div class="section-title">基本设置</div>
-    <div class="toggle-container">
-      <span class="toggle-label">启用暗黑模式</span>
+
+  <!-- 标签栏 -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" data-tab="main">
+      <span class="tab-icon">🌙</span>主控
+    </button>
+    <button class="tab-btn" data-tab="themes">
+      <span class="tab-icon">🎨</span>主题
+    </button>
+    <button class="tab-btn" data-tab="adjust">
+      <span class="tab-icon">🔆</span>调节
+    </button>
+    <button class="tab-btn" data-tab="sites">
+      <span class="tab-icon">🌐</span>网站
+    </button>
+  </nav>
+
+  <!-- 主控面板 -->
+  <div class="tab-panel active" id="tab-main">
+    <div class="panel-header">
+      <h3>暗黑模式</h3>
+      <span class="status-badge status-off" id="mainStatus">OFF</span>
+    </div>
+    <div class="panel-header">
+      <span>启用暗黑模式</span>
       <label class="switch">
-        <input type="checkbox" id="darkModeToggle">
+        <input type="checkbox" id="toggleSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="panel-header">
+      <span>跟随系统主题</span>
+      <label class="switch">
+        <input type="checkbox" id="autoModeSwitch">
         <span class="slider"></span>
       </label>
     </div>
   </div>
-  
-  <div class="section">
-    <div class="section-title">强度调节</div>
-    <div class="slider-container">
-      <div class="slider-label">
-        <span>反转强度</span>
-        <span id="intensityValue">90%</span>
+
+  <!-- 主题面板 -->
+  <div class="tab-panel" id="tab-themes">
+    <div class="panel-header">
+      <h3>选择主题</h3>
+    </div>
+    <div class="theme-grid">
+      <div class="theme-card active" data-theme="dark">
+        <div class="theme-preview" style="background:#121212;border:1px solid #333;"></div>
+        <div class="theme-label">🌑 暗夜</div>
       </div>
-      <input type="range" id="intensitySlider" min="50" max="100" value="90">
+      <div class="theme-card" data-theme="sepia">
+        <div class="theme-preview" style="background:#1c1510;border:1px solid #4a3c22;"></div>
+        <div class="theme-label">📜  sepia</div>
+      </div>
+      <div class="theme-card" data-theme="midnight">
+        <div class="theme-preview" style="background:#0a0e1a;border:1px solid #1e2d45;"></div>
+        <div class="theme-label">🌌 午夜</div>
+      </div>
+      <div class="theme-card" data-theme="forest">
+        <div class="theme-preview" style="background:#0a1a0d;border:1px solid #1a3320;"></div>
+        <div class="theme-label">🌿 森林</div>
+      </div>
     </div>
   </div>
-  
-  <div class="footer">
-    自动适配所有网页
+
+  <!-- 调节面板 -->
+  <div class="tab-panel" id="tab-adjust">
+    <div class="panel-header">
+      <h3>显示调节</h3>
+    </div>
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>亮度</span>
+        <span id="brightnessVal">100%</span>
+      </div>
+      <input type="range" id="brightnessSlider" min="50" max="150" value="100">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label">
+        <span>对比度</span>
+        <span id="contrastVal">100%</span>
+      </div>
+      <input type="range" id="contrastSlider" min="50" max="150" value="100">
+    </div>
   </div>
-  
+
+  <!-- 网站面板 -->
+  <div class="tab-panel" id="tab-sites">
+    <div class="panel-header">
+      <h3>网站管理</h3>
+    </div>
+    <div id="sitesList">
+      <div class="site-row">
+        <span class="site-name">当前网站</span>
+        <span class="site-toggle site-enabled" id="currentSiteToggle">启用</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Safari 暗黑模式 v2.0</div>
+
   <script src="popup.js"></script>
 </body>
 </html>

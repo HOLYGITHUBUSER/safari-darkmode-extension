@@ -1,38 +1,5 @@
-/* 全局暗黑模式样式 - 动态版 */
-.dark-mode-active {
-  filter: invert(var(--darkmode-invert, 0.9)) hue-rotate(180deg) brightness(var(--darkmode-brightness, 105%)) contrast(95%) sepia(20%);
-  transition: filter 0.3s ease;
-}
-
-/* 保持图片、视频等媒体正常显示 */
-.dark-mode-active img,
-.dark-mode-active video,
-.dark-mode-active canvas,
-.dark-mode-active svg,
-.dark-mode-active iframe {
-  filter: invert(0.9) hue-rotate(180deg) brightness(105%);
-}
-
-/* 保持代码块可读 */
-.dark-mode-active pre,
-.dark-mode-active code {
-  filter: invert(0.9) hue-rotate(180deg) brightness(105%);
-}
-
-/* 保持某些特定元素正常 */
-.dark-mode-active [style*="background: white"],
-.dark-mode-active [style*="background: #fff"],
-.dark-mode-active [style*="background-color: white"],
-.dark-mode-active [style*="background-color: #fff"] {
-  filter: invert(0.9) hue-rotate(180deg) brightness(105%);
-}
-
-/* 优化文本可读性 */
-.dark-mode-active {
-  text-shadow: 0 0 1px rgba(0,0,0,0.1);
-}
-
-/* 改进链接颜色 */
-.dark-mode-active a {
-  color: #64b5f6 !important;
+/* 过渡动画 */
+.dm-transitioning, .dm-transitioning *,
+.dm-transitioning *::before, .dm-transitioning *::after {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
 }
