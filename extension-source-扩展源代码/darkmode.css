@@ -1,6 +1,7 @@
-/* 全局暗黑模式样式 - 优化版 */
+/* 全局暗黑模式样式 - 动态版 */
 .dark-mode-active {
-  filter: invert(0.9) hue-rotate(180deg) brightness(105%) contrast(95%) sepia(20%);
+  filter: invert(var(--darkmode-invert, 0.9)) hue-rotate(180deg) brightness(var(--darkmode-brightness, 105%)) contrast(95%) sepia(20%);
+  transition: filter 0.3s ease;
 }
 
 /* 保持图片、视频等媒体正常显示 */
