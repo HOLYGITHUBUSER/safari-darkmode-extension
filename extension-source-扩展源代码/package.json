@@ -7,7 +7,9 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "clean": "rm -f src/*.js src/*.js.map popup/popup.js popup/popup.js.map",
-    "zip": "npm run build && cd .. && rm -f SafariDarkMode-Extension.zip && zip -r SafariDarkMode-Extension.zip extension-source-扩展源代码 -x '*/node_modules/*' '*/.DS_Store' '*/*.ts' '*/tsconfig.json'"
+    "zip": "npm run build && cd .. && rm -f SafariDarkMode-Extension.zip && zip -r SafariDarkMode-Extension.zip extension-source-扩展源代码 -x '*/node_modules/*' '*/.DS_Store' '*/*.ts' '*/tsconfig.json'",
+    "test": "echo '测试功能待实现'",
+    "test:visual": "echo '视觉测试待实现'"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.268",
