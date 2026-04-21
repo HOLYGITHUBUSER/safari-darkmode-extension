@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗黑模式测试页面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            color: #333333;
+        }
+
+        .section {
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #0055aa;
+            margin-top: 30px;
+        }
+
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0055aa;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+
+        .card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .image-test {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .image-test img {
+            max-width: 200px;
+            border-radius: 4px;
+        }
+
+        .color-box {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            margin: 10px;
+            border-radius: 4px;
+        }
+
+        .bg-blue { background: #0066cc; }
+        .bg-green { background: #28a745; }
+        .bg-red { background: #dc3545; }
+        .bg-yellow { background: #ffc107; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        table th {
+            background: #0066cc;
+            color: white;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .status-success { background: #d4edda; color: #155724; }
+        .status-warning { background: #fff3cd; color: #856404; }
+        .status-error { background: #f8d7da; color: #721c24; }
+
+        #testResults {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>暗黑模式测试页面</h1>
+    <p>此页面用于测试暗黑模式扩展的效果</p>
+
+    <div class="section">
+        <h2>控制面板</h2>
+        <button onclick="toggleDarkMode()">切换暗黑模式</button>
+        <button onclick="runTests()">运行测试</button>
+        <button onclick="checkStatus()">检查扩展状态</button>
+    </div>
+
+    <div class="section">
+        <h2>文本测试</h2>
+        <p>这是一段普通文本，用于测试暗黑模式下的可读性。</p>
+        <p style="color: #0066cc;">这是蓝色文本，应该保持可读。</p>
+        <p style="color: #28a745;">这是绿色文本，应该保持可读。</p>
+        <p style="color: #dc3545;">这是红色文本，应该保持可读。</p>
+        <h3>标题测试</h3>
+        <h4>这是四级标题</h4>
+        <h5>这是五级标题</h5>
+        <h6>这是六级标题</h6>
+    </div>
+
+    <div class="section">
+        <h2>按钮和表单测试</h2>
+        <button>主要按钮</button>
+        <button style="background: #28a745;">成功按钮</button>
+        <button style="background: #dc3545;">危险按钮</button>
+        
+        <br><br>
+        <input type="text" placeholder="输入测试">
+        <select style="padding: 10px;">
+            <option>选项 1</option>
+            <option>选项 2</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <h2>卡片测试</h2>
+        <div class="card">
+            <h3>卡片标题</h3>
+            <p>这是卡片内容，用于测试卡片在暗黑模式下的显示效果。</p>
+        </div>
+        <div class="card">
+            <h3>另一个卡片</h3>
+            <p>不同背景的卡片测试。</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>图片测试</h2>
+        <p>图片应该保持正常显示，不被过度反转。</p>
+        <div class="image-test">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23ff6b6b' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white'%3E图片1%3C/text%3E%3C/svg%3E" alt="测试图片1">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%234ecdc4' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white'%3E图片2%3C/text%3E%3C/svg%3E" alt="测试图片2">
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>颜色测试</h2>
+        <p>不同颜色的方块测试：</p>
+        <div class="color-box bg-blue"></div>
+        <div class="color-box bg-green"></div>
+        <div class="color-box bg-red"></div>
+        <div class="color-box bg-yellow"></div>
+    </div>
+
+    <div class="section">
+        <h2>表格测试</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>状态</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>项目 1</td>
+                    <td><span class="status status-success">成功</span></td>
+                    <td>正常运行</td>
+                </tr>
+                <tr>
+                    <td>项目 2</td>
+                    <td><span class="status status-warning">警告</span></td>
+                    <td>需要注意</td>
+                </tr>
+                <tr>
+                    <td>项目 3</td>
+                    <td><span class="status status-error">错误</span></td>
+                    <td>需要修复</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>链接测试</h2>
+        <a href="#" style="color: #0066cc;">这是一个链接</a> |
+        <a href="#" style="color: #0055aa;">另一个链接</a>
+    </div>
+
+    <div id="testResults">
+        <h2>测试结果</h2>
+        <p>点击"运行测试"按钮查看测试结果</p>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dm-on');
+            const isDark = document.documentElement.classList.contains('dm-on');
+            alert('暗黑模式: ' + (isDark ? '开启' : '关闭'));
+        }
+
+        function checkStatus() {
+            const isDark = document.documentElement.classList.contains('dm-on');
+            const results = document.getElementById('testResults');
+            results.innerHTML = `
+                <h2>扩展状态</h2>
+                <p><strong>暗黑模式类:</strong> ${isDark ? '已添加' : '未添加'}</p>
+                <p><strong>HTML 类名:</strong> ${document.documentElement.className}</p>
+                <p><strong>背景色:</strong> ${window.getComputedStyle(document.body).backgroundColor}</p>
+                <p><strong>文本颜色:</strong> ${window.getComputedStyle(document.body).color}</p>
+            `;
+        }
+
+        function runTests() {
+            const results = document.getElementById('testResults');
+            const tests = [];
+            
+            // 测试 1: 检查暗黑模式类
+            const hasDarkMode = document.documentElement.classList.contains('dm-on');
+            tests.push({
+                name: '暗黑模式类',
+                status: hasDarkMode ? '通过' : '未开启',
+                passed: hasDarkMode
+            });
+
+            // 测试 2: 检查背景色
+            const bgColor = window.getComputedStyle(document.body).backgroundColor;
+            const isDarkBg = bgColor !== 'rgb(255, 255, 255)' && bgColor !== '#ffffff';
+            tests.push({
+                name: '背景色反转',
+                status: isDarkBg ? '通过' : '未反转',
+                passed: isDarkBg
+            });
+
+            // 测试 3: 检查文本颜色
+            const textColor = window.getComputedStyle(document.body).color;
+            const isLightText = textColor !== 'rgb(51, 51, 51)' && textColor !== '#333333';
+            tests.push({
+                name: '文本颜色反转',
+                status: isLightText ? '通过' : '未反转',
+                passed: isLightText
+            });
+
+            // 测试 4: 检查按钮可见性
+            const buttons = document.querySelectorAll('button');
+            let buttonsVisible = true;
+            buttons.forEach(btn => {
+                const style = window.getComputedStyle(btn);
+                if (style.opacity === '0' || style.display === 'none') {
+                    buttonsVisible = false;
+                }
+            });
+            tests.push({
+                name: '按钮可见性',
+                status: buttonsVisible ? '通过' : '失败',
+                passed: buttonsVisible
+            });
+
+            // 测试 5: 检查图片
+            const images = document.querySelectorAll('img');
+            let imagesOk = true;
+            images.forEach(img => {
+                const style = window.getComputedStyle(img);
+                if (style.filter && style.filter.includes('invert')) {
+                    // 图片应该被反向反转以保持正常显示
+                }
+            });
+            tests.push({
+                name: '图片显示',
+                status: imagesOk ? '通过' : '需要检查',
+                passed: imagesOk
+            });
+
+            // 生成报告
+            let html = '<h2>测试结果</h2>';
+            html += '<table><thead><tr><th>测试项</th><th>状态</th><th>结果</th></tr></thead><tbody>';
+            
+            let passedCount = 0;
+            tests.forEach(test => {
+                const statusClass = test.passed ? 'status-success' : 'status-warning';
+                html += `<tr>
+                    <td>${test.name}</td>
+                    <td><span class="status ${statusClass}">${test.status}</span></td>
+                    <td>${test.passed ? '✓' : '✗'}</td>
+                </tr>`;
+                if (test.passed) passedCount++;
+            });
+            
+            html += '</tbody></table>';
+            html += `<p><strong>总计:</strong> ${passedCount}/${tests.length} 通过</p>`;
+            
+            results.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

@@ -87,6 +87,30 @@ npm run clean     # 清理编译产物
 npm run zip       # 构建并生成分发包
 ```
 
+### 测试
+
+**首次使用需要安装 Playwright 浏览器：**
+
+```bash
+npm run test:install
+```
+
+**运行测试：**
+
+```bash
+npm run test       # 运行所有测试
+npm run test:ui    # 使用 UI 模式运行测试
+npm run test:visual # 视觉回归测试
+```
+
+**测试页面：**
+
+项目包含一个测试页面 `test-page/index.html`，可以在浏览器中直接打开测试暗黑模式效果。
+
+- 打开 `test-page/index.html`
+- 点击"切换暗黑模式"按钮测试
+- 点击"运行测试"按钮查看测试结果
+
 ## 安装到 Safari
 
 ### 开发者模式安装
