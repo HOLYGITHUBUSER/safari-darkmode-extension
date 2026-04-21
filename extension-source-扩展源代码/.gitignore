@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+*.log
+
+# tsc 编译产物（随 build 生成；打 zip 前会自动生成一次）
+src/*.js
+src/*.js.map
+popup/popup.js
+popup/popup.js.map

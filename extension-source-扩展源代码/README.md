@@ -1,67 +1,82 @@
-# Safari 全局暗黑模式插件
+# Safari 全局暗黑模式扩展
 
-为所有网页应用暗黑模式的 Safari 扩展。
+为所有网页应用暗黑模式的浏览器扩展（Safari / Chrome / Edge 通用 MV2）。源码使用 **TypeScript**。
 
 ## 功能
 
-- ✅ 全局暗黑模式，对所有网页生效
-- ✅ 一键开关，方便切换
-- ✅ 使用 CSS filter 技术，兼容性好
-- ✅ 自动保存设置
+- 全局暗黑模式，支持 4 套主题（Dark / Sepia / Midnight / Forest）
+- 亮度、对比度独立调节
+- 当前站点白名单（一键禁用某站）
+- 地图站点（Google Maps、高德、百度、Leaflet、Mapbox、OpenLayers 等）专用适配
+- 设置自动保存，跨标签页实时同步
 
-## 安装方法
+## 开发
 
-### 开发者模式安装（无需 Apple 开发者账号）
+### 环境准备
 
-1. **打开 Safari 偏好设置**
-   - Safari > 偏好设置 > 扩展
+```bash
+npm install
+```
 
-2. **启用开发者模式**
-   - 在左下角勾选"在菜单栏显示"
-   - 勾选"开发人员模式"
+### 构建
 
-3. **加载扩展**
-   - 点击"开发人员模式"旁边的复选框
-   - 点击"加载未解包的扩展项"
-   - 选择 `simple-safari-darkmode` 文件夹
+```bash
+npm run build     # 编译 TS -> JS
+npm run watch     # 监听模式
+npm run clean     # 清理编译产物
+```
 
-4. **启用扩展**
-   - 在扩展列表中找到"全局暗黑模式"
-   - 勾选启用
+编译输出与源码同目录：
 
-### 使用方法
+- `src/themes.ts`  → `src/themes.js`
+- `src/content.ts` → `src/content.js`
+- `popup/popup.ts` → `popup/popup.js`
 
-1. 点击 Safari 工具栏中的扩展图标
-2. 在弹出的面板中切换开关
-3. 暗黑模式会立即应用到当前标签页
-4. 设置会自动保存，下次访问时生效
+`manifest.json` 引用的是编译后的 `.js`，所以加载扩展前必须先 `npm run build`。
 
-## 技术实现
+### 打包分发
 
-- **Manifest V2**: Safari 兼容的扩展格式
-- **Content Scripts**: 注入到所有网页
-- **CSS Filter**: 使用 `invert()` 和 `hue-rotate()` 实现暗黑效果
-- **Storage API**: 保存用户设置
+```bash
+npm run zip
+```
+
+会先构建再在上层目录生成 `SafariDarkMode-Extension.zip`（已排除 `node_modules`、`.ts`、`tsconfig.json`）。
+
+## 安装到 Safari（开发者模式）
+
+1. Safari → 设置 → 高级 → 勾选"在菜单栏中显示开发菜单"
+2. 开发菜单 → 允许未签名扩展
+3. 先运行 `npm run build`
+4. 使用 Xcode 的 "Safari Web Extension Converter" 将本目录转换为 App，或通过 `safari-web-extension-converter` 命令行工具：
+   ```bash
+   xcrun safari-web-extension-converter ./
+   ```
 
 ## 文件结构
 
 ```
-simple-safari-darkmode/
-├── manifest.json       # 扩展配置文件
-├── content.js          # 内容脚本（注入到网页）
-├── darkmode.css        # 暗黑模式样式
-├── popup.html          # 弹出界面
-├── popup.js            # 弹出界面逻辑
-├── icon16.png          # 16x16 图标
-├── icon48.png          # 48x48 图标
-└── icon128.png         # 128x128 图标
+extension-source-扩展源代码/
+├── manifest.json         # 扩展清单（MV2）
+├── tsconfig.json         # TypeScript 配置
+├── package.json
+├── src/
+│   ├── types.d.ts        # 全局类型声明
+│   ├── themes.ts         # 主题定义 + CSS 生成
+│   └── content.ts        # 内容脚本（注入到网页）
+├── popup/
+│   ├── popup.html        # 弹出面板
+│   └── popup.ts          # 弹出面板逻辑
+├── css/
+│   └── darkmode.css      # 占位样式（实际规则由 content 脚本注入）
+└── icons/                # 扩展图标
 ```
 
-## 注意事项
+## 技术说明
 
-- 此扩展使用 CSS filter 技术，可能会影响某些网站的颜色显示
-- 如需排除特定网站，可以在 `manifest.json` 中修改 `matches` 规则
-- 图片、视频等媒体元素会自动反转以保持正常显示
+- 使用 `<html class="dm-on">` 作为总开关，所有暗黑规则以类选择器作用域，避免页面侧切换时的污染
+- 亮度/对比度通过 `filter` 作用于 `<html>`，对 `img/video/canvas/picture` 反向施加 `filter` 以抵消
+- 针对地图站点检测 host / path，注入 `dm-map-site` 类后对瓦片渲染面 `invert + hue-rotate`
+- `MutationObserver` 监听 `<head>`，被 SPA 清空样式时自动重新注入
 
 ## 许可证
 

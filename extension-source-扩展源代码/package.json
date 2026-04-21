@@ -1,12 +1,20 @@
 {
   "name": "safari-darkmode-extension",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
-  "description": "Safari 全局暗黑模式扩展",
+  "description": "Safari 全局暗黑模式扩展（TypeScript 源码）",
   "scripts": {
-    "zip": "cd .. && rm -f SafariDarkMode-Extension.zip && zip -r SafariDarkMode-Extension.zip extension-source-扩展源代码 -x '*/node_modules/*' '*/.DS_Store'"
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rm -f src/*.js src/*.js.map popup/popup.js popup/popup.js.map",
+    "zip": "npm run build && cd .. && rm -f SafariDarkMode-Extension.zip && zip -r SafariDarkMode-Extension.zip extension-source-扩展源代码 -x '*/node_modules/*' '*/.DS_Store' '*/*.ts' '*/tsconfig.json'"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "playwright": "^1.59.1",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
     "sharp": "^0.34.5"
   }
 }
