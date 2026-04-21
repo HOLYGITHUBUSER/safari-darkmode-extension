@@ -16,15 +16,53 @@
 ```
 safari-darkmode-extension-项目/
 ├── extension-source-扩展源代码/    # 扩展源代码（TypeScript）
-│   ├── manifest.json              # 扩展配置文件
-│   ├── src/                       # 内容脚本
-│   ├── popup/                     # 弹出界面
-│   ├── css/                       # 样式文件
-│   └── icons/                     # 扩展图标
+│   ├── manifest.json              # 扩展配置文件（必需）
+│   ├── tsconfig.json              # TypeScript 配置（必需）
+│   ├── package.json               # 依赖配置（必需）
+│   ├── .gitignore                 # Git 忽略规则（必需）
+│   ├── src/                       # 内容脚本源码（必需）
+│   │   ├── content.ts             # 内容脚本主逻辑
+│   │   ├── themes.ts              # 主题定义和 CSS 生成
+│   │   └── types.d.ts             # TypeScript 类型定义
+│   ├── popup/                     # 弹出界面（必需）
+│   │   ├── popup.html             # 弹出面板 HTML
+│   │   └── popup.ts               # 弹出面板逻辑
+│   ├── css/                       # 样式文件（必需）
+│   │   └── darkmode.css           # 占位样式（实际规则由 content.ts 注入）
+│   └── icons/                     # 扩展图标（必需）
+│       ├── icon16.png             # 16x16 图标
+│       ├── icon48.png             # 48x48 图标
+│       └── icon128.png            # 128x128 图标
 ├── SafariDarkMode-Extension.zip   # 分发包（编译后的扩展）
 ├── distribution-guide-分发说明.md  # 给接收者的安装说明
 └── project-guide-项目说明.md      # 详细项目文档
 ```
+
+### 文件说明
+
+**必需文件（运行扩展必须）：**
+- `manifest.json` - 扩展配置文件，定义扩展名称、权限、脚本加载等
+- `src/content.ts` - 内容脚本，注入到网页中实现暗黑模式
+- `src/themes.ts` - 主题定义，生成暗黑模式 CSS 规则
+- `src/types.d.ts` - TypeScript 类型定义
+- `popup/popup.html` - 弹出面板界面
+- `popup/popup.ts` - 弹出面板逻辑
+- `css/darkmode.css` - 占位样式表（manifest 引用，实际规则由 content.ts 动态注入）
+- `icons/icon16.png/icon48.png/icon128.png` - 扩展图标
+
+**开发文件（开发编译必需）：**
+- `tsconfig.json` - TypeScript 编译配置
+- `package.json` - 依赖配置和脚本命令
+- `.gitignore` - Git 忽略规则（忽略编译产物）
+
+**编译产物（自动生成，不应提交）：**
+- `src/content.js` - content.ts 编译后的文件
+- `src/themes.js` - themes.ts 编译后的文件
+- `popup/popup.js` - popup.ts 编译后的文件
+- `*.js.map` - Source Map 文件
+
+**分发文件：**
+- `SafariDarkMode-Extension.zip` - 分发包（运行 `npm run zip` 生成）
 
 ## 快速开始
 
