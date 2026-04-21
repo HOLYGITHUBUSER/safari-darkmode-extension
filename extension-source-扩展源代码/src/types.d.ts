@@ -46,4 +46,5 @@ interface Window {
   DM_buildVars: (theme: ThemeKey, brightness: number, contrast: number) => string;
   DM_buildFilterCss: (brightness: number, contrast: number) => string;
   DM_DARK_CSS: string;
+  DM_injectSiteRules?: (hostname: string) => void;
 }

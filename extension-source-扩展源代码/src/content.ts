@@ -100,6 +100,17 @@
     upsertStyle(ID_VARS, `:root { ${lastVars}; }`);
     upsertStyle(ID_STYLES, lastCss);
     upsertStyle(ID_FILTER, lastFilter);
+    
+    // 注入网站特定的 CSS 规则
+    try {
+      if (window.DM_injectSiteRules) {
+        const hostname = window.location.hostname;
+        window.DM_injectSiteRules(hostname);
+      }
+    } catch {
+      /* ignore */
+    }
+    
     r.classList.add(CLS_ON);
     startObserver();
   }

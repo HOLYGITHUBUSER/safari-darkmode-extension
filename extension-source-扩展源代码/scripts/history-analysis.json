@@ -1,0 +1,246 @@
+{
+  "domains": [
+    {
+      "domain": "www.bilibili.com",
+      "count": 391
+    },
+    {
+      "domain": "localhost",
+      "count": 265
+    },
+    {
+      "domain": "map.baidu.com",
+      "count": 239
+    },
+    {
+      "domain": "github.com",
+      "count": 119
+    },
+    {
+      "domain": "192.168.1.28",
+      "count": 57
+    },
+    {
+      "domain": "127.0.0.1",
+      "count": 47
+    },
+    {
+      "domain": "nkbihfbeogaeaoehlefnkodbefgpgknn",
+      "count": 35
+    },
+    {
+      "domain": "testnet.monadscan.com",
+      "count": 30
+    },
+    {
+      "domain": "search.bilibili.com",
+      "count": 30
+    },
+    {
+      "domain": "www.google.com",
+      "count": 22
+    },
+    {
+      "domain": "accounts.google.com",
+      "count": 18
+    },
+    {
+      "domain": "faucet.monad.xyz",
+      "count": 16
+    },
+    {
+      "domain": "autoclaws.org",
+      "count": 16
+    },
+    {
+      "domain": "discord.com",
+      "count": 15
+    },
+    {
+      "domain": "space.bilibili.com",
+      "count": 15
+    },
+    {
+      "domain": "mojo.devnads.com",
+      "count": 14
+    },
+    {
+      "domain": "mail.google.com",
+      "count": 12
+    },
+    {
+      "domain": "windsurf.com",
+      "count": 8
+    },
+    {
+      "domain": "luma.com",
+      "count": 7
+    },
+    {
+      "domain": "cursor.com",
+      "count": 6
+    },
+    {
+      "domain": "weixin110.qq.com",
+      "count": 5
+    },
+    {
+      "domain": "metamask.io",
+      "count": 5
+    },
+    {
+      "domain": "www.appkcc.com",
+      "count": 4
+    },
+    {
+      "domain": "www.1openclaw.cn",
+      "count": 3
+    },
+    {
+      "domain": "adblockplus.org",
+      "count": 3
+    },
+    {
+      "domain": "ycn1il4p8nbo.feishu.cn",
+      "count": 3
+    },
+    {
+      "domain": "order.jd.com",
+      "count": 3
+    },
+    {
+      "domain": "www.google.com.hk",
+      "count": 3
+    },
+    {
+      "domain": "v2.aicodee.com",
+      "count": 2
+    },
+    {
+      "domain": "www.microsoft.com",
+      "count": 2
+    }
+  ],
+  "urls": [
+    {
+      "url": "https://www.bilibili.com/?spm_id_from=333.788.0.0",
+      "count": 48
+    },
+    {
+      "url": "https://github.com/HOLYGITHUBUSER/hecthon_monad_hangzhou_20260413",
+      "count": 31
+    },
+    {
+      "url": "http://192.168.1.28:5173/",
+      "count": 31
+    },
+    {
+      "url": "https://testnet.monadscan.com/address/0x1caeb53198fcbb80b3f004c92200812687d040f4",
+      "count": 21
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13214444.955769433",
+      "count": 20
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13214189.187983654",
+      "count": 16
+    },
+    {
+      "url": "https://faucet.monad.xyz/",
+      "count": 15
+    },
+    {
+      "url": "https://github.com/",
+      "count": 14
+    },
+    {
+      "url": "http://127.0.0.1:18789/chat?session=agent%3Amain%3Amain",
+      "count": 14
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13217922.834857507",
+      "count": 10
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13217447.446818342",
+      "count": 10
+    },
+    {
+      "url": "https://github.com/HOLYGITHUBUSER",
+      "count": 9
+    },
+    {
+      "url": "http://127.0.0.1:18789/chat?session=main",
+      "count": 9
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13214265.392171197",
+      "count": 9
+    },
+    {
+      "url": "http://127.0.0.1:18789/",
+      "count": 8
+    },
+    {
+      "url": "https://www.bilibili.com/",
+      "count": 8
+    },
+    {
+      "url": "https://github.com/HOLYGITHUBUSER/safari-darkmode-extension",
+      "count": 7
+    },
+    {
+      "url": "https://testnet.monadscan.com/address/0x9c108bbE0333d978e582Ba32980Cf2d3F3f6d684",
+      "count": 7
+    },
+    {
+      "url": "https://mojo.devnads.com/",
+      "count": 7
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13214327.216051862",
+      "count": 7
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13236481.422917735",
+      "count": 7
+    },
+    {
+      "url": "https://space.bilibili.com/31395786?spm_id_from=333.788.0.0",
+      "count": 7
+    },
+    {
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "count": 6
+    },
+    {
+      "url": "https://github.com/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home",
+      "count": 6
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13212978.331723696",
+      "count": 6
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13210873.977470031",
+      "count": 6
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13213768.780836659",
+      "count": 6
+    },
+    {
+      "url": "https://map.baidu.com/search/%E6%9D%BF%E6%A1%A5/@13210816.714746024",
+      "count": 6
+    },
+    {
+      "url": "https://windsurf.com/changelog",
+      "count": 5
+    },
+    {
+      "url": "https://github.com/MetaCubeX/ClashMetaForAndroid?tab=readme-ov-file",
+      "count": 5
+    }
+  ]
+}
